@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { AUTH_API } from "@/lib/api"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -112,7 +113,7 @@ export default function DashboardPage() {
       setIsLoading(true)
       const token = localStorage.getItem("token")
       
-      let url = "https://zenspend.onrender.com/api/transactions/stats"
+      let url = "http://localhost:8000/api/transactions/stats"
       const params = getTimeScopeParams()
       const queryParams = new URLSearchParams()
       
@@ -155,7 +156,7 @@ export default function DashboardPage() {
   const fetchUserInfo = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch("https://zenspend.onrender.com/api/auth/me", {
+      const response = await fetch(`${AUTH_API}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 

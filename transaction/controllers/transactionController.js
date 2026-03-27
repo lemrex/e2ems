@@ -14,7 +14,7 @@ exports.getTransactions = async (req, res) => {
     const { type, category, startDate, endDate, limit = 100, offset = 0 } = req.query;
     
     let query = 'SELECT * FROM transactions WHERE user_id = $1';
-    const params = [req.userId];
+    const params = [req.user.userId];
     let paramCount = 1;
 
     if (type && (type === 'income' || type === 'expense')) {
@@ -55,11 +55,11 @@ exports.getTransactions = async (req, res) => {
 
     const countResult = await pool.query(
       'SELECT COUNT(*) FROM transactions WHERE user_id = $1',
-      [req.userId]
+      [req.user.userId]
     );
 
     logger.debug('Transactions fetched', { 
-      userId: req.userId,
+      userId: req.user.userId,
       count: result.rows.length,
       filters: { type, category, startDate, endDate }
     });
@@ -74,7 +74,7 @@ exports.getTransactions = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Get transactions error', error, { userId: req.userId });
+    logger.error('Get transactions error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error fetching transactions' 
@@ -91,13 +91,13 @@ exports.getTransaction = async (req, res) => {
 
     const result = await pool.query(
       'SELECT * FROM transactions WHERE id = $1 AND user_id = $2',
-      [id, req.userId]
+      [id, req.user.userId]
     );
 
     if (result.rows.length === 0) {
       logger.warn('Transaction not found', { 
         transactionId: id,
-        userId: req.userId 
+        userId: req.user.userId 
       });
       return res.status(404).json({ 
         success: false, 
@@ -114,7 +114,7 @@ exports.getTransaction = async (req, res) => {
   } catch (error) {
     logger.error('Get transaction error', error, { 
       transactionId: req.params.id,
-      userId: req.userId 
+      userId: req.user.userId 
     });
     res.status(500).json({ 
       success: false, 
@@ -131,7 +131,7 @@ exports.createTransaction = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       logger.warn('Transaction creation validation failed', { 
-        userId: req.userId,
+        userId: req.user.userId,
         errors: errors.array() 
       });
       return res.status(400).json({ 
@@ -144,11 +144,11 @@ exports.createTransaction = async (req, res) => {
 
     const result = await pool.query(
       'INSERT INTO transactions (user_id, type, amount, category, date, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [req.userId, type, amount, category, date, description || null]
+      [req.user.userId, type, amount, category, date, description || null]
     );
 
     logger.info('Transaction created', { 
-      userId: req.userId,
+      userId: req.user.userId,
       transactionId: result.rows[0].id,
       type,
       amount,
@@ -163,7 +163,7 @@ exports.createTransaction = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Create transaction error', error, { userId: req.userId });
+    logger.error('Create transaction error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error creating transaction' 
@@ -179,7 +179,7 @@ exports.updateTransaction = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       logger.warn('Transaction update validation failed', { 
-        userId: req.userId,
+        userId: req.user.userId,
         transactionId: req.params.id,
         errors: errors.array() 
       });
@@ -194,13 +194,13 @@ exports.updateTransaction = async (req, res) => {
 
     const checkResult = await pool.query(
       'SELECT * FROM transactions WHERE id = $1 AND user_id = $2',
-      [id, req.userId]
+      [id, req.user.userId]
     );
 
     if (checkResult.rows.length === 0) {
       logger.warn('Transaction update failed - not found', { 
         transactionId: id,
-        userId: req.userId 
+        userId: req.user.userId 
       });
       return res.status(404).json({ 
         success: false, 
@@ -210,11 +210,11 @@ exports.updateTransaction = async (req, res) => {
 
     const result = await pool.query(
       'UPDATE transactions SET type = $1, amount = $2, category = $3, date = $4, description = $5, updated_at = CURRENT_TIMESTAMP WHERE id = $6 AND user_id = $7 RETURNING *',
-      [type, amount, category, date, description || null, id, req.userId]
+      [type, amount, category, date, description || null, id, req.user.userId]
     );
 
     logger.info('Transaction updated', { 
-      userId: req.userId,
+      userId: req.user.userId,
       transactionId: id,
       type,
       amount,
@@ -231,7 +231,7 @@ exports.updateTransaction = async (req, res) => {
   } catch (error) {
     logger.error('Update transaction error', error, { 
       transactionId: req.params.id,
-      userId: req.userId 
+      userId: req.user.userId 
     });
     res.status(500).json({ 
       success: false, 
@@ -249,13 +249,13 @@ exports.deleteTransaction = async (req, res) => {
 
     const result = await pool.query(
       'DELETE FROM transactions WHERE id = $1 AND user_id = $2 RETURNING *',
-      [id, req.userId]
+      [id, req.user.userId]
     );
 
     if (result.rows.length === 0) {
       logger.warn('Transaction deletion failed - not found', { 
         transactionId: id,
-        userId: req.userId 
+        userId: req.user.userId 
       });
       return res.status(404).json({ 
         success: false, 
@@ -264,7 +264,7 @@ exports.deleteTransaction = async (req, res) => {
     }
 
     logger.info('Transaction deleted', { 
-      userId: req.userId,
+      userId: req.user.userId,
       transactionId: id 
     });
 
@@ -275,7 +275,7 @@ exports.deleteTransaction = async (req, res) => {
   } catch (error) {
     logger.error('Delete transaction error', error, { 
       transactionId: req.params.id,
-      userId: req.userId 
+      userId: req.user.userId 
     });
     res.status(500).json({ 
       success: false, 
@@ -289,7 +289,7 @@ exports.getStats = async (req, res) => {
   try {
     const { timeScope, startDate, endDate } = req.query;
     let dateFilter = '';
-    const queryParams = [req.userId];
+    const queryParams = [req.user.userId];
     let paramIndex = 2;
 
     // Build date filter based on timeScope (same as before)
@@ -395,7 +395,7 @@ exports.getStats = async (req, res) => {
     }
 
     logger.debug('Stats fetched', { 
-      userId: req.userId,
+      userId: req.user.userId,
       timeScope: timeScope || 'all-time',
       periodInfo,
       totalIncome,
@@ -428,7 +428,7 @@ exports.getStats = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Get stats error', error, { userId: req.userId });
+    logger.error('Get stats error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error fetching statistics' 
@@ -454,11 +454,11 @@ exports.getDailyAnalytics = async (req, res) => {
         AND date >= CURRENT_DATE - INTERVAL '30 days'
       GROUP BY date
       ORDER BY date DESC`,
-      [req.userId]
+      [req.user.userId]
     );
 
     logger.debug('Daily analytics fetched', { 
-      userId: req.userId,
+      userId: req.user.userId,
       dataPoints: dailyData.rows.length 
     });
 
@@ -475,7 +475,7 @@ exports.getDailyAnalytics = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Get daily analytics error', error, { userId: req.userId });
+    logger.error('Get daily analytics error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error fetching daily analytics' 
@@ -499,11 +499,11 @@ exports.getWeeklyAnalytics = async (req, res) => {
         AND date >= CURRENT_DATE - INTERVAL '12 weeks'
       GROUP BY DATE_TRUNC('week', date)
       ORDER BY week_start DESC`,
-      [req.userId]
+      [req.user.userId]
     );
 
     logger.debug('Weekly analytics fetched', { 
-      userId: req.userId,
+      userId: req.user.userId,
       dataPoints: weeklyData.rows.length 
     });
 
@@ -520,7 +520,7 @@ exports.getWeeklyAnalytics = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Get weekly analytics error', error, { userId: req.userId });
+    logger.error('Get weekly analytics error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error fetching weekly analytics' 
@@ -545,11 +545,11 @@ exports.getMonthlyAnalytics = async (req, res) => {
         AND date >= CURRENT_DATE - INTERVAL '12 months'
       GROUP BY DATE_TRUNC('month', date), TO_CHAR(date, 'Mon YYYY')
       ORDER BY month_start DESC`,
-      [req.userId]
+      [req.user.userId]
     );
 
     logger.debug('Monthly analytics fetched', { 
-      userId: req.userId,
+      userId: req.user.userId,
       dataPoints: monthlyData.rows.length 
     });
 
@@ -567,7 +567,7 @@ exports.getMonthlyAnalytics = async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Get monthly analytics error', error, { userId: req.userId });
+    logger.error('Get monthly analytics error', error, { userId: req.user.userId });
     res.status(500).json({ 
       success: false, 
       message: 'Server error fetching monthly analytics' 
@@ -575,73 +575,12 @@ exports.getMonthlyAnalytics = async (req, res) => {
   }
 };
 
-// @desc    Get comparison analytics (today vs week vs month)
-// @route   GET /api/transactions/analytics/comparison
-// @access  Private
-// exports.getComparisonAnalytics = async (req, res) => {
-//   try {
-//     const todayResult = await pool.query(
-//       `SELECT 
-//         SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income,
-//         SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense,
-//         COUNT(*) as transaction_count
-//       FROM transactions 
-//       WHERE user_id = $1 AND date = CURRENT_DATE`,
-//       [req.userId]
-//     );
-
-//     const weekResult = await pool.query(
-//       `SELECT 
-//         SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income,
-//         SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense,
-//         COUNT(*) as transaction_count
-//       FROM transactions 
-//       WHERE user_id = $1 AND date >= CURRENT_DATE - INTERVAL '7 days'`,
-//       [req.userId]
-//     );
-
-//     const monthResult = await pool.query(
-//       `SELECT 
-//         SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income,
-//         SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense,
-//         COUNT(*) as transaction_count
-//       FROM transactions 
-//       WHERE user_id = $1 AND date >= CURRENT_DATE - INTERVAL '30 days'`,
-//       [req.userId]
-//     );
-
-//     const formatStats = (row) => ({
-//       income: parseFloat(row.income || 0),
-//       expense: parseFloat(row.expense || 0),
-//       net: parseFloat(row.income || 0) - parseFloat(row.expense || 0),
-//       transactionCount: parseInt(row.transaction_count || 0)
-//     });
-
-//     logger.debug('Comparison analytics fetched', { userId: req.userId });
-
-//     res.json({
-//       success: true,
-//       data: {
-//         today: formatStats(todayResult.rows[0]),
-//         thisWeek: formatStats(weekResult.rows[0]),
-//         thisMonth: formatStats(monthResult.rows[0])
-//       }
-//     });
-//   } catch (error) {
-//     logger.error('Get comparison analytics error', error, { userId: req.userId });
-//     res.status(500).json({ 
-//       success: false, 
-//       message: 'Server error fetching comparison analytics' 
-//     });
-//   }
-// };
-
 
 /**
  * Get top income sources (grouped by category)
  */
 exports.getTopIncomeSources = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.userId;
 
   try {
     const result = await pool.query(
@@ -663,7 +602,7 @@ exports.getTopIncomeSources = async (req, res) => {
       data: result.rows,
     });
   } catch (error) {
-    console.log("USER ID:", req.userId || req.user?.id);
+    console.log("USER ID:", req.user.userId || req.user?.id);
 
     console.error("Top income sources error:", error);
     res.status(500).json({
@@ -675,7 +614,7 @@ exports.getTopIncomeSources = async (req, res) => {
 
 
 exports.getTopExpenseSources = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.userId;
 
   try {
     const result = await pool.query(
@@ -697,7 +636,7 @@ exports.getTopExpenseSources = async (req, res) => {
       data: result.rows,
     });
   } catch (error) {
-    console.log("USER ID:", req.userId || req.user?.id);
+    console.log("USER ID:", req.user.userId || req.user?.id);
 
     console.error("Top income sources error:", error);
     res.status(500).json({
@@ -747,7 +686,7 @@ const aggregate = async (userId, start, end) => {
 };
 
 exports.getComparisonAnalytics = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.userId;
 
   try {
     const now = new Date();

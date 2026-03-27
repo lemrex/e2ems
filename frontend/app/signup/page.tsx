@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { AUTH_API } from "@/lib/api"
 import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
 import { motion } from "framer-motion"
@@ -27,7 +28,7 @@ export default function SignUpPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("https://zenspend.onrender.com/api/auth/signup", {
+      const response = await fetch(`${AUTH_API}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),

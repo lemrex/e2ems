@@ -2,6 +2,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { TRANSACTION_API } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -101,8 +102,10 @@ export default function TransactionList({ filter, timeScope, customDateRange, on
       const token = localStorage.getItem("token")
 
       // Build URL with query parameters
-      let url = "https://zenspend.onrender.com/api/transactions/"
+      // let url = "http://localhost:8000/api/transactions/"
+      let url = `${TRANSACTION_API}/transactions/`
       const params = new URLSearchParams()
+
       
       // Add type filter
       if (filter !== "all") {
@@ -155,7 +158,7 @@ export default function TransactionList({ filter, timeScope, customDateRange, on
       const token = localStorage.getItem("token")
 
       const response = await fetch(
-        `https://zenspend.onrender.com/api/transactions/${id}`,
+        `${TRANSACTION_API}/transactions/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

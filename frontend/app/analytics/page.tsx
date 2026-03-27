@@ -3,6 +3,7 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react"
+import { TRANSACTION_API } from "@/lib/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -297,7 +298,7 @@ export default function AnalyticsPage() {
     try {
       setIsLoading(true)
       const token = localStorage.getItem("token")
-      const baseURL = "https://zenspend.onrender.com/api"
+
       const timeParams = getTimeScopeParams()
       
       // Build query string
@@ -316,22 +317,22 @@ export default function AnalyticsPage() {
 
       // Fetch all data with time scope
       const [statsRes, transactionsRes, weeklyRes, monthlyRes, dailyRes, comparisonRes] = await Promise.all([
-        fetch(`${baseURL}/transactions/stats${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/stats${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${baseURL}/transactions/${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${baseURL}/transactions/stat/weekly${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/stat/weekly${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${baseURL}/transactions/stat/monthly${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/stat/monthly${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${baseURL}/transactions/stat/daily${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/stat/daily${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${baseURL}/transactions/stat/comparison${queryString}`, {
+        fetch(`${TRANSACTION_API}/transactions/stat/comparison${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ])

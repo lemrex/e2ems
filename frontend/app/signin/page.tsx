@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { AUTH_API } from "@/lib/api"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,7 +28,7 @@ export default function SignInPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("https://zenspend.onrender.com/api/auth/signin", {
+      const response = await fetch(`${AUTH_API}/api/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier, password }),

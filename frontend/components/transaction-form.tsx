@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { format } from "date-fns"
+import { TRANSACTION_API } from "@/lib/api"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -79,7 +80,7 @@ export default function TransactionForm({
       const token = localStorage.getItem("token")
 
       const response = await fetch(
-        "https://zenspend.onrender.com/api/transactions",
+        `${TRANSACTION_API}`,
         {
           method: "POST",
           headers: {
