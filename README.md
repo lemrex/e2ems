@@ -1,7 +1,3 @@
-Here’s a **complete, real-world project task** you can give students based on your `e2ems` microservices setup. It’s structured like something they’d see in a DevOps/Cloud engineering role.
-
----
-
 # 🚀 Project: End-to-End Microservices Deployment on AWS (E2E-MS)
 
 ## 📌 Objective
@@ -277,12 +273,4 @@ Students must submit:
 | Observability        | 10%    |
 | Logging              | 10%    |
 
----
 
-If you want, I can also:
-
-* Generate **sample Dockerfiles for your services**
-* Create a **ready-to-use GitHub Actions pipeline**
-* Write **Kubernetes manifests tailored to your repo structure**
-
-Just tell me 👍
