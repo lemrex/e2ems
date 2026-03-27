@@ -50,7 +50,7 @@ Provision the following:
 
 ---
 
-## 🔹 2. Database Setup (NEW)
+## 🔹 2. Database Setup 
 
 After creating RDS:
 
@@ -67,19 +67,7 @@ After creating RDS:
   * Tables
   * Indexes (if defined)
 
-Example:
 
-```bash
-psql -h <rds-endpoint> -U <username> -d postgres -f db.sql
-```
-
-* Verify:
-
-```sql
-\dt
-SELECT * FROM users;
-```
----
 
 ### 🔹 2. Dockerization
 
@@ -210,7 +198,7 @@ npm run export
 
 ---
 
-### 🔄 C. Auto Sync to S3 (NEW)
+### 🔄 C. Auto Sync to S3
 
 Automate deployment using:
 
