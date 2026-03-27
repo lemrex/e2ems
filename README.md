@@ -185,11 +185,7 @@ Deploy Next.js frontend as static site:
 
 ✅ Steps:
 
-* Build static export (`next build && next export`)
-* Upload to S3
-* Enable static website hosting
-
-## 🔧 B. Build Static App
+Build Static App
 
 ```bash
 npm run build
@@ -198,7 +194,7 @@ npm run export
 
 ---
 
-### 🔄 C. Auto Sync to S3
+Auto Sync to S3
 
 Automate deployment using:
 
