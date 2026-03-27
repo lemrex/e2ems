@@ -27,7 +27,7 @@ You are provided with a microservices-based app:
 * **Frontend (Next.js)**
 * **PostgreSQL Database**
 
-Each service has its own `.env` file.
+Each service except the frontend has its own `.env` file.
 
 ---
 
@@ -50,6 +50,37 @@ Provision the following:
 
 ---
 
+## 🔹 2. Database Setup (NEW)
+
+After creating RDS:
+
+### Tasks:
+
+* Connect to PostgreSQL (via EC2 or local tunnel)
+* Run `db.sql` provided
+
+### ✅ Requirements:
+
+* Create:
+
+  * Database
+  * Tables
+  * Indexes (if defined)
+
+Example:
+
+```bash
+psql -h <rds-endpoint> -U <username> -d postgres -f db.sql
+```
+
+* Verify:
+
+```sql
+\dt
+SELECT * FROM users;
+```
+---
+
 ### 🔹 2. Dockerization
 
 Dockerize each backend service:
@@ -60,14 +91,13 @@ Dockerize each backend service:
 ✅ Requirements:
 
 * Multi-stage Docker builds
-* Use environment variables properly
 * Optimize image size
 * Use `.dockerignore`
 
 Example deliverables:
 
 * `Dockerfile` for each service
-* `.env.example`
+
 
 ---
 
@@ -75,12 +105,12 @@ Example deliverables:
 
 * Push images to:
 
-  * Amazon Elastic Container Registry (ECR)
+  * Amazon Elastic Container Registry (ECR) or Dockerhub
 
 ✅ Requirements:
 
 * Use separate repositories per service
-* Tag images properly (`latest`, `v1`, etc.)
+* Tag images properly 
 
 ---
 
@@ -101,7 +131,7 @@ Pipeline stages:
 
 * Use:
 
-  * CodeQL
+  * Sonarqube
 
 #### 🐳 Container Scanning
 
@@ -112,7 +142,7 @@ Pipeline stages:
 #### 📦 Build & Push Image
 
 * Build Docker image
-* Push to ECR
+* Push to ECR or Dockerhub
 
 ---
 
@@ -171,7 +201,59 @@ Deploy Next.js frontend as static site:
 * Upload to S3
 * Enable static website hosting
 
+## 🔧 B. Build Static App
+
+```bash
+npm run build
+npm run export
+```
+
 ---
+
+### 🔄 C. Auto Sync to S3 (NEW)
+
+Automate deployment using:
+
+* AWS CLI inside GitHub Actions
+
+### Example Step:
+
+```yaml
+- name: Sync to S3
+  run: |
+    aws s3 sync ./out s3://your-bucket-name --delete
+```
+
+### ✅ Requirements:
+
+* Auto-deploy on:
+
+  * `main` branch push
+* Enable S3 static hosting
+* (Optional) Add CloudFront
+
+---
+
+### 🔧 A. Environment Fix (MANDATORY)
+
+Before build:
+
+👉 Update API base URL in:
+
+```
+frontend/lib/api.js
+```
+
+Example:
+
+```js
+const BASE_URL = "http://<your-ingress-or-api-url>";
+```
+
+❗ This replaces `.env` usage for frontend runtime.
+
+---
+
 
 ### 🔹 8. Observability (Monitoring)
 
