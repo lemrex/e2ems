@@ -185,16 +185,15 @@ Deploy Next.js frontend as static site:
 
 ✅ Steps:
 
-Build Static App
+* Build Static App
 
 ```bash
 npm run build
 npm run export
 ```
 
----
 
-Auto Sync to S3
+* Auto Sync to S3
 
 Automate deployment using:
 
@@ -216,9 +215,8 @@ Automate deployment using:
 * Enable S3 static hosting
 * (Optional) Add CloudFront
 
----
 
-### 🔧 A. Environment Fix (MANDATORY)
+* Environment Fix (MANDATORY)
 
 Before build:
 
@@ -231,7 +229,7 @@ frontend/lib/api.js
 Example:
 
 ```js
-const BASE_URL = "http://<your-ingress-or-api-url>";
+export const BASE_URL = "http://<your-ingress-or-api-url>";
 ```
 
 ❗ This replaces `.env` usage for frontend runtime.
