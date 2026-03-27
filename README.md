@@ -4,7 +4,6 @@
 
 Design, containerize, secure, and deploy a microservices-based application (`e2ems`) using AWS, Kubernetes, CI/CD, and observability tools.
 
----
 
 ## 🧱 Architecture Overview
 
@@ -16,7 +15,7 @@ Design, containerize, secure, and deploy a microservices-based application (`e2e
 
 ![Image](https://images.openai.com/static-rsc-4/7-yCTxBDZ4ioDS6XlFUp4LrqjS2hKvY9IOhc9BDj1GdnR0GWrFT3bqyx4LToiPETMRJjME3-n1MATfMK5gDHzFrQyZy8rt7rQfxwpLbVNARPcuv3C6hcK8fXTohk5gkB08DkhjJun9VREHkARC9ASjQ1PJiClY4b9T4LYVmX86QArbiUBKsHcrf3y3CemXtD?purpose=fullsize)
 
----
+
 
 ## 🧩 Given System
 
@@ -29,7 +28,7 @@ You are provided with a microservices-based app:
 
 Each service except the frontend has its own `.env` file.
 
----
+
 
 ## 🛠️ Tasks Breakdown
 
@@ -48,7 +47,7 @@ Provision the following:
 * Use proper VPC, subnets, and security groups
 * RDS should only allow access from EKS nodes
 
----
+
 
 ## 🔹 2. Database Setup 
 
@@ -87,7 +86,7 @@ Example deliverables:
 * `Dockerfile` for each service
 
 
----
+
 
 ### 🔹 3. Container Registry
 
@@ -100,7 +99,7 @@ Example deliverables:
 * Use separate repositories per service
 * Tag images properly 
 
----
+
 
 ### 🔹 4. CI/CD Pipeline
 
@@ -132,7 +131,7 @@ Pipeline stages:
 * Build Docker image
 * Push to ECR or Dockerhub
 
----
+
 
 ### 🔹 5. Kubernetes Deployment
 
@@ -153,7 +152,7 @@ Resources to define:
 * Use environment variables from Secrets
 * Use readiness/liveness probes
 
----
+
 
 ### 🔹 6. GitOps Deployment
 
@@ -172,7 +171,7 @@ Tasks:
 * Use declarative manifests
 * Auto-sync enabled
 
----
+
 
 ### 🔹 7. Frontend Deployment
 
@@ -234,7 +233,7 @@ export const BASE_URL = "http://<your-ingress-or-api-url>";
 
 ❗ This replaces `.env` usage for frontend runtime.
 
----
+
 
 
 ### 🔹 8. Observability (Monitoring)
@@ -267,7 +266,6 @@ Install:
   * Request metrics
 * Create at least 1 dashboard
 
----
 
 ### 🔹 9. Logging (ELK Stack)
 
@@ -295,7 +293,6 @@ Install:
 * View logs in Kibana
 * Filter logs by service
 
----
 
 ## 📦 Deliverables
 
@@ -313,7 +310,6 @@ Students must submit:
   * Kibana logs
 * Architecture diagram
 
----
 
 ## ⭐ Bonus Tasks
 
@@ -323,7 +319,6 @@ Students must submit:
 * Use Terraform for full infra provisioning
 * Add rate limiting / API gateway
 
----
 
 ## 🧠 Evaluation Criteria
 
