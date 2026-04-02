@@ -1,4 +1,4 @@
-# 🚀 Project: End-to-End Microservices Deployment on AWS (E2E-MS)
+# Project: End-to-End Microservices Deployment on k8s
 
 ## 📌 Objective
 
@@ -32,7 +32,7 @@ Each service except the frontend has its own `.env` file.
 
 ## 🛠️ Tasks Breakdown
 
-### 🔹 1. Infrastructure Provisioning (AWS)
+### 🔹 1. Infrastructure Provisioning
 
 Provision the following:
 
@@ -45,7 +45,7 @@ Provision the following:
 ✅ Requirements:
 
 * Use proper VPC, subnets, and security groups
-* RDS should only allow access from EKS nodes
+* RDS should only allow access from k8s nodes
 
 
 
@@ -55,7 +55,7 @@ After creating RDS:
 
 ### Tasks:
 
-* Connect to PostgreSQL (via EC2 or local tunnel)
+* Connect to PostgreSQL (via VM or local tunnel)
 * Run `db.sql` provided
 
 ### ✅ Requirements:
@@ -92,7 +92,7 @@ Example deliverables:
 
 * Push images to:
 
-  * Amazon Elastic Container Registry (ECR) or Dockerhub
+  * Any Container Registry  or Dockerhub
 
 ✅ Requirements:
 
@@ -179,8 +179,8 @@ Deploy Next.js frontend as static site:
 
 * Use:
 
-  * Amazon S3
-  * (Optional) CloudFront CDN
+  * Object storage
+  * (Optional)  CDN
 
 ✅ Steps:
 
