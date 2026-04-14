@@ -1,7 +1,37 @@
-# ----------- Stage 1: Build -----------
-FROM node:20-alpine AS builder
+# # ----------- Stage 1: Build -----------
+# FROM node:20-alpine AS builder
 
-# Set working directory
+# # Set working directory
+# WORKDIR /app
+
+# # Install dependencies
+# COPY package.json package-lock.json* ./
+# RUN npm install
+
+# # Copy source code
+# COPY . .
+
+# # Build and export static site
+# RUN npm run build
+
+# # ----------- Stage 2: Serve (Optional) -----------
+# # Only needed if you want to run it in a container (e.g. K8s preview)
+# FROM nginx:alpine
+
+# # Remove default nginx static assets
+# RUN rm -rf /usr/share/nginx/html/*
+
+# # Copy built static files
+# COPY --from=builder /app/out /usr/share/nginx/html
+
+# # Expose port
+# EXPOSE 80
+
+# CMD ["nginx", "-g", "daemon off;"]
+
+
+FROM node:20-alpine
+
 WORKDIR /app
 
 # Install dependencies
@@ -11,20 +41,14 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Build and export static site
+# Build Next.js app
 RUN npm run build
 
-# ----------- Stage 2: Serve (Optional) -----------
-# Only needed if you want to run it in a container (e.g. K8s preview)
-FROM nginx:alpine
+# Expose Next.js default port
+EXPOSE 3000
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+# Start production server
+CMD ["npm", "run", "start"]
 
-# Copy built static files
-COPY --from=builder /app/out /usr/share/nginx/html
 
-# Expose port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+this is the suggestion i was given
