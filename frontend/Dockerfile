@@ -12,8 +12,7 @@ RUN npm install
 COPY . .
 
 # Build and export static site
-RUN npm run build && npm run export
-
+RUN npm run build
 
 # ----------- Stage 2: Serve (Optional) -----------
 # Only needed if you want to run it in a container (e.g. K8s preview)
