@@ -50,5 +50,3 @@ EXPOSE 3000
 # Start production server
 CMD ["npm", "run", "start"]
 
-
-this is the suggestion i was given
