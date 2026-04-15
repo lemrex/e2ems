@@ -7,7 +7,7 @@ on:
 
 env:
   REGION: af-south-1
-  REGISTRY: swr.af-south-1.myhuaweicloud.com/hwc-ocp-org
+  REGISTRY: swr.af-south-1.myhuaweicloud.com/hw-ocp-org
 
 jobs:
   build:
