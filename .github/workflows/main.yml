@@ -24,11 +24,11 @@ jobs:
           docker login -u af-south-1@HST3W28TIVB69E41BDUR -p d1936b34f8d760c748758a163f5c88052a89b7edb8e1f418e8fc854f887b6ecf swr.af-south-1.myhuaweicloud.com
           
           docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
-          docker push $REGISTRY/auth:${{ github.sha }}
+          docker push $REGISTRY/authentication:${{ github.sha }}
 
           docker build -t $REGISTRY/transaction:${{ github.sha }} ./transaction
-          docker push $REGISTRY/account:${{ github.sha }}
+          docker push $REGISTRY/transaction:${{ github.sha }}
 
           docker build -t $REGISTRY/frontend:${{ github.sha }} ./frontend
-          docker push $REGISTRY/transaction:${{ github.sha }}
+          docker push $REGISTRY/frontend:${{ github.sha }}
 
