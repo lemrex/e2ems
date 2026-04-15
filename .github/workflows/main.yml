@@ -21,7 +21,7 @@ jobs:
       - name: Build and push Docker images
         run: |
 
-          
+          docker login -u af-south-1@HST3W28TIVB69E41BDUR -p d1936b34f8d760c748758a163f5c88052a89b7edb8e1f418e8fc854f887b6ecf swr.af-south-1.myhuaweicloud.com
           
           docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
           docker push $REGISTRY/authentication:${{ github.sha }}
