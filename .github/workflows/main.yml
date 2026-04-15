@@ -1,0 +1,34 @@
+name: CI/CD to Huawei SWR and CCE
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGION: af-south-1
+  REGISTRY: swr.af-south-1.myhuaweicloud.com/hwc-ocp-org
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+
+      - name: Build and push Docker images
+        run: |
+
+          docker login -u af-south-1@HST3W28TIVB69E41BDUR -p d1936b34f8d760c748758a163f5c88052a89b7edb8e1f418e8fc854f887b6ecf swr.af-south-1.myhuaweicloud.com
+          
+          docker build -t $REGISTRY/auth:${{ github.sha }} ./auth-service
+          docker push $REGISTRY/auth:${{ github.sha }}
+
+          docker build -t $REGISTRY/account:${{ github.sha }} ./transaction-service
+          docker push $REGISTRY/account:${{ github.sha }}
+
+          docker build -t $REGISTRY/transaction:${{ github.sha }} ./frontend
+          docker push $REGISTRY/transaction:${{ github.sha }}
+
