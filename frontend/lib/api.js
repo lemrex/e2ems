@@ -8,6 +8,6 @@
 // export const TRANSACTION_API = "http://e2ems-transaction-test-deployment.apps.hw-ocp4.converge.com:5000/api";
 
 
-export const AUTH_API = "http://121.91.156.145:3001//api";
+export const AUTH_API = "http://121.91.156.145:3001";
 
-export const TRANSACTION_API = "http://121.91.156.145:3002//api";
+export const TRANSACTION_API = "http://121.91.156.145:3002";
