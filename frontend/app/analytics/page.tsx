@@ -317,22 +317,22 @@ export default function AnalyticsPage() {
 
       // Fetch all data with time scope
       const [statsRes, transactionsRes, weeklyRes, monthlyRes, dailyRes, comparisonRes] = await Promise.all([
-        fetch(`${TRANSACTION_API}/transactions/stats${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/stats${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${TRANSACTION_API}/transactions/${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${TRANSACTION_API}/transactions/stat/weekly${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/stat/weekly${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${TRANSACTION_API}/transactions/stat/monthly${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/stat/monthly${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${TRANSACTION_API}/transactions/stat/daily${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/stat/daily${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${TRANSACTION_API}/transactions/stat/comparison${queryString}`, {
+        fetch(`${TRANSACTION_API}/api/transactions/stat/comparison${queryString}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ])
