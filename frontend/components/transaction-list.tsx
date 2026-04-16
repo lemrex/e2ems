@@ -103,7 +103,7 @@ export default function TransactionList({ filter, timeScope, customDateRange, on
 
       // Build URL with query parameters
       // let url = "http://localhost:8000/api/transactions/"
-      let url = `${TRANSACTION_API}/transactions/`
+      let url = `${TRANSACTION_API}/api/transactions/`
       const params = new URLSearchParams()
 
       
