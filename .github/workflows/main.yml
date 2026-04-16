@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - mains
+      - main
 
 env:
   REGION: af-south-1
@@ -22,15 +22,17 @@ jobs:
         run: |
 
     
+          docker build -t test:latest .
 
-          docker build -t $REGISTRY/frontend:latest ./frontend
-          docker push $REGISTRY/frontend:latest
           
-          docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
-          docker push $REGISTRY/authentication:${{ github.sha }}
+          # docker build -t $REGISTRY/frontend:latest ./frontend
+          # docker push $REGISTRY/frontend:latest
+          
+          # docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
+          # docker push $REGISTRY/authentication:${{ github.sha }}
 
-          docker build -t $REGISTRY/transaction:${{ github.sha }} ./transaction
-          docker push $REGISTRY/transaction:${{ github.sha }}
+          # docker build -t $REGISTRY/transaction:${{ github.sha }} ./transaction
+          # docker push $REGISTRY/transaction:${{ github.sha }}
 
 
 
