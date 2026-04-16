@@ -80,7 +80,7 @@ export default function TransactionForm({
       const token = localStorage.getItem("token")
 
       const response = await fetch(
-        `${TRANSACTION_API}`,
+        `${TRANSACTION_API}/api/transactions`,
         {
           method: "POST",
           headers: {
