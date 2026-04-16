@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - main
+      - mains
 
 env:
   REGION: af-south-1
