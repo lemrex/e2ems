@@ -21,8 +21,10 @@ jobs:
       - name: Build and push Docker images
         run: |
 
-          docker build -t $REGISTRY/frontend:${{ github.sha }} ./frontend
-          docker push $REGISTRY/frontend:${{ github.sha }}
+          docker login -u af-south-1@HST3WCCJA5SHYFCP3OU3 -p 0704e75c354474413babb3d1c3e6741b4813ed69346c9d90fcb1a57629499fa4 swr.af-south-1.myhuaweicloud.com
+
+          docker build -t $REGISTRY/frontend:latest ./frontend
+          docker push $REGISTRY/frontend:latest
           
           docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
           docker push $REGISTRY/authentication:${{ github.sha }}
