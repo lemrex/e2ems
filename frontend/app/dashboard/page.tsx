@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { TRANSACTION_API } from "@/lib/api"
 import { AUTH_API } from "@/lib/api"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -113,7 +114,7 @@ export default function DashboardPage() {
       setIsLoading(true)
       const token = localStorage.getItem("token")
       
-      let url = "http://localhost:8000/api/transactions/stats"
+      let url = `${TRANSACTION_API}/api/transactions/stats`
       const params = getTimeScopeParams()
       const queryParams = new URLSearchParams()
       
@@ -156,7 +157,7 @@ export default function DashboardPage() {
   const fetchUserInfo = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch(`${AUTH_API}/auth/me`, {
+      const response = await fetch(`${AUTH_API}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
