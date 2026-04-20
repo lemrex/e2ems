@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - main
+      - mains
 
 env:
   REGION: af-south-1
@@ -22,10 +22,10 @@ jobs:
         run: |
 
           
-          docker login -u af-south-1@HST3W98YQF0HGCT5ZDIO -p 94deb08f673ee1add16aba8f37d628bc2fb5dd6a15c7a3b963372460efb804df swr.af-south-1.myhuaweicloud.com
+      
           
           
-          docker build --build-arg NEXT_PUBLIC_AUTH_API=http://121.91.156.145:3001 --build-arg NEXT_PUBLIC_TRANSACTION_API=http://121.91.156.145:3002 -t $REGISTRY/frontend:v1 ./frontend
+          docker build  -t $REGISTRY/frontend:v1 ./frontend
           docker push $REGISTRY/frontend:v1
 
   
