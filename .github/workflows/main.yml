@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - main
+      - mains
 
 env:
   REGION: af-south-1
@@ -21,7 +21,7 @@ jobs:
       - name: Build and push Docker images
         run: |
 
-          docker login -u af-south-1@HST3U73VLTEOGQGC08Y4 -p d3c6b2467c70844a5efe404d6e4e1aaf9b3864bc5a5d19411aba14887c3ef741 swr.af-south-1.myhuaweicloud.com
+          
 
 
           
