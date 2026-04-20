@@ -1,18 +1,12 @@
-FROM alpine:3.18
+FROM ubuntu:latest
 
-RUN apk add --no-cache \
-    expect \
-    curl \
-    jq \
-    ca-certificates \
-    bash
+# Install dependencies
+RUN apt-get update && apt-get install -y expect curl jq
 
-# Huawei CLI installation (may need adjustment for Alpine)
-RUN curl -sSL -o /tmp/hcloud_install.sh \
-    https://hwcloudcli.obs.cn-north-1.myhuaweicloud.com/cli/latest/hcloud_install.sh \
- && bash /tmp/hcloud_install.sh -y \
- && rm -f /tmp/hcloud_install.sh
+# Install Huawei Cloud CLI
+RUN curl -sSL https://hwcloudcli.obs.cn-north-1.myhuaweicloud.com/cli/latest/hcloud_install.sh -o ./hcloud_install.sh && bash ./hcloud_install.sh -y
 
+# Copy script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
