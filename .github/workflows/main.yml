@@ -25,7 +25,7 @@ jobs:
 
           docker login -u af-south-1@HST3UDJLC3R8N80P8BMS -p c40201c354311ca6051d8b8a54345fd6d060a6049f17ce6d3327be30050c537e swr.af-south-1.myhuaweicloud.com
           
-          docker build --build-arg NEXT_PUBLIC_AUTH_API=http://121.91.156.139:3000 --build-arg NEXT_PUBLIC_TRANSACTION_API=http://121.91.156.139:4000 -t $REGISTRY/frontend-f:latesta ./frontend
+          docker build --build-arg NEXT_PUBLIC_AUTH_API=http://121.91.156.139:3001 --build-arg NEXT_PUBLIC_TRANSACTION_API=http://121.91.156.139:3002-t $REGISTRY/frontend-f:latesta ./frontend
           docker push $REGISTRY/frontend-f:latesta
 
   
