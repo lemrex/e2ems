@@ -7,7 +7,7 @@ on:
 
 env:
   REGION: af-south-1
-  REGISTRY: swr.af-south-1.myhuaweicloud.com/hw-ocp-org
+  REGISTRY: swr.af-south-1.myhuaweicloud.com/ralf
 
 jobs:
   build:
@@ -21,18 +21,18 @@ jobs:
       - name: Build and push Docker images
         run: |
 
-    
-          docker build -t test:latest .
+          docker login -u af-south-1@HST3U73VLTEOGQGC08Y4 -p d3c6b2467c70844a5efe404d6e4e1aaf9b3864bc5a5d19411aba14887c3ef741 swr.af-south-1.myhuaweicloud.com
+
 
           
-          # docker build -t $REGISTRY/frontend:latest ./frontend
-          # docker push $REGISTRY/frontend:latest
+          docker build -t $REGISTRY/frontend-f:latest ./frontend
+          docker push $REGISTRY/frontend-f:latest
           
-          # docker build -t $REGISTRY/authentication:${{ github.sha }} ./authentication
-          # docker push $REGISTRY/authentication:${{ github.sha }}
+          docker build -t $REGISTRY/authentication-f:${{ github.sha }} ./authentication
+          docker push $REGISTRY/authentication-f:${{ github.sha }}
 
-          # docker build -t $REGISTRY/transaction:${{ github.sha }} ./transaction
-          # docker push $REGISTRY/transaction:${{ github.sha }}
+          docker build -t $REGISTRY/transaction-f:${{ github.sha }} ./transaction
+          docker push $REGISTRY/transaction-f:${{ github.sha }}
 
 
 
